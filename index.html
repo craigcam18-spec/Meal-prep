@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<!-- viewport-fit=cover + the safe-area insets in the CSS keep the header and
+     the footer clear of the notch and the home indicator on an iPhone. -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f6f4a" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1512" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Meal prep">
+<meta name="description" content="Plan a week of meals and shop for it.">
+<title>Meal prep</title>
+<!-- Inline so the site stays two HTML/CSS/JS files and a folder of JSON, with
+     no binary asset to fetch and no 404 in the console when it is missing. -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231f6f4a'/><path d='M9 8v16M9 8c-2 0-2 5 0 5s2-5 0-5M23 8v16M23 8c-3 1-3 7 0 8' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' fill='none'/></svg>">
+<link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <h1>Meal prep</h1>
+  <div class="tabs" role="tablist" aria-label="Screens">
+    <button type="button" class="tab" role="tab" id="tab-week" aria-controls="view-week"
+            data-tab="week" aria-selected="true">Week</button>
+    <button type="button" class="tab" role="tab" id="tab-list" aria-controls="view-list"
+            data-tab="list" aria-selected="false">
+      Shopping list <span class="badge" id="tab-list-count" hidden></span>
+    </button>
+  </div>
+</header>
+
+<p class="error" id="error" role="alert" hidden></p>
+
+<main>
+
+  <section class="view" id="view-week" role="tabpanel" aria-labelledby="tab-week" data-view="week">
+    <div class="weekbar">
+      <button type="button" class="week-step" id="week-prev" aria-label="Previous week">‹</button>
+      <div class="week-of">
+        <label for="week-date">Week of</label>
+        <input type="date" id="week-date">
+        <p class="week-range" id="week-range"></p>
+      </div>
+      <button type="button" class="week-step" id="week-next" aria-label="Next week">›</button>
+    </div>
+
+    <h2>This week</h2>
+    <p class="empty" id="planned-empty">Nothing planned yet. Add a meal below.</p>
+    <ul class="meals" id="planned"></ul>
+    <p class="summary" id="planned-summary"></p>
+    <button type="button" class="ghost" id="clear-week" hidden>Clear the week</button>
+
+    <h2>Add a meal</h2>
+    <ul class="recipes" id="recipes"></ul>
+
+    <button type="button" class="primary page-action" id="go-shopping">
+      Shopping list
+    </button>
+  </section>
+
+  <section class="view" id="view-list" role="tabpanel" aria-labelledby="tab-list" data-view="list" hidden>
+    <div class="list-top" id="list-header">
+      <div class="list-actions">
+        <button type="button" class="toggle" id="shop-mode" aria-pressed="false">Shop mode</button>
+        <button type="button" class="ghost" id="clear-ticks" hidden>Clear ticks</button>
+      </div>
+      <p class="progress-text" id="list-progress"></p>
+      <div class="progress" aria-hidden="true"><span id="list-bar"></span></div>
+    </div>
+
+    <p class="empty" id="list-empty">
+      No meals planned, so there is nothing to buy.
+    </p>
+
+    <div id="aisles"></div>
+
+    <button type="button" class="ghost page-action" id="go-week">Back to the week</button>
+  </section>
+
+</main>
+
+<script type="module" src="src/app.js"></script>
+</body>
+</html>

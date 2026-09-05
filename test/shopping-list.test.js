@@ -5,6 +5,7 @@ import {
   buildShoppingList,
   expandPlan,
   groupByCategory,
+  missingDensities,
   missingUnitWeights,
 } from '../src/shopping-list.js';
 import { ingredients, line, recipes } from './fixtures.js';
@@ -185,6 +186,87 @@ describe('counts with no unit_weight_g', () => {
   });
 });
 
+describe('merging volumes against weights via density_g_per_ml', () => {
+  it('weighs millilitres and folds them into the gram total', () => {
+    // 30ml of oil at 0.91 g/ml is 27.3g.
+    const oil = line(build([{ recipe_id: 'roast-veg', servings: 2 }]), 'olive-oil');
+
+    assert.equal(oil.total_g, 27.3);
+    assert.equal(oil.unit, 'g');
+    assert.equal(oil.needs_density, false);
+  });
+
+  it('combines a millilitre line and a gram line into one number', () => {
+    const withGrams = [
+      ...recipes,
+      { ...recipes[0], id: 'oil-cake', servings: 1, ingredients: [
+        { ingredient_id: 'olive-oil', qty: 100, unit: 'g' },
+      ] },
+    ];
+    const oil = line(
+      buildShoppingList(
+        [{ recipe_id: 'roast-veg', servings: 2 }, { recipe_id: 'oil-cake' }],
+        { ingredients, recipes: withGrams }
+      ),
+      'olive-oil'
+    );
+
+    assert.equal(oil.total_g, 127.3);
+    assert.deepEqual(oil.parts, [{ qty: 127.3, unit: 'g' }]);
+  });
+
+  it('scales a volume line with the servings like any other', () => {
+    const oil = line(build([{ recipe_id: 'roast-veg', servings: 4 }]), 'olive-oil');
+    assert.equal(oil.total_g, 54.6);
+  });
+});
+
+describe('volumes with no density_g_per_ml', () => {
+  it('still totals them, in millilitres, and flags the gap', () => {
+    const stock = line(build([
+      { recipe_id: 'soup', servings: 2 },
+      { recipe_id: 'soup', servings: 1 },
+    ]), 'stock');
+
+    assert.equal(stock.qty, 750);
+    assert.equal(stock.unit, 'ml');
+    assert.equal(stock.total_g, null, 'no weight can be claimed without a density');
+    assert.equal(stock.needs_density, true);
+    assert.equal(stock.needs_unit_weight, false);
+  });
+
+  it('keeps weights and volumes as separate parts rather than inventing one', () => {
+    const withGrams = [
+      ...recipes,
+      { ...recipes[0], id: 'stock-rub', servings: 1, ingredients: [
+        { ingredient_id: 'stock', qty: 20, unit: 'g' },
+      ] },
+    ];
+    const stock = line(
+      buildShoppingList(
+        [{ recipe_id: 'soup', servings: 2 }, { recipe_id: 'stock-rub' }],
+        { ingredients, recipes: withGrams }
+      ),
+      'stock'
+    );
+
+    assert.equal(stock.qty, null, 'refuses to give one combined number');
+    assert.equal(stock.total_g, null);
+    assert.deepEqual(stock.parts, [
+      { qty: 20, unit: 'g' },
+      { qty: 500, unit: 'ml' },
+    ]);
+  });
+
+  it('lists what needs a density filling in', () => {
+    const list = build([
+      { recipe_id: 'soup', servings: 2 },
+      { recipe_id: 'roast-veg', servings: 2 },
+    ]);
+    assert.deepEqual(missingDensities(list), ['stock']);
+  });
+});
+
 describe('list shape', () => {
   it('gives every ingredient a parts array to write down', () => {
     const list = build([{ recipe_id: 'beef-chilli', servings: 4 }]);
@@ -256,15 +338,15 @@ describe('bad input', () => {
     );
   });
 
-  it('rejects a unit it cannot convert instead of guessing a density', () => {
+  it('rejects a unit it has no conversion rule for at all', () => {
     const broken = [
       { ...recipes[0], id: 'broken', ingredients: [
-        { ingredient_id: 'rice-basmati', qty: 250, unit: 'ml' },
+        { ingredient_id: 'rice-basmati', qty: 2, unit: 'tbsp' },
       ] },
     ];
     assert.throws(
       () => buildShoppingList([{ recipe_id: 'broken' }], { ingredients, recipes: broken }),
-      /Unknown unit "ml"/
+      /Unknown unit "tbsp"/
     );
   });
 

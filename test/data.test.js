@@ -79,6 +79,17 @@ describe('ingredients.json', () => {
         assert.ok(p.pack_size_g === null || p.pack_size_g > 0);
       });
 
+      it('carries a density field, null unless a real one is known', () => {
+        const d = ingredient.purchase.density_g_per_ml;
+        assert.ok(
+          Object.hasOwn(ingredient.purchase, 'density_g_per_ml'),
+          'the field is always present, so a missing density is a decision not an omission'
+        );
+        assert.ok(d === null || d > 0, `bad density "${d}"`);
+        // Nothing you cook with is lighter than a foam or denser than syrup.
+        if (d !== null) assert.ok(d > 0.1 && d < 2, `implausible density "${d}"`);
+      });
+
       it('knows what one item weighs if that is how you buy it', () => {
         if (ingredient.purchase.unit !== 'each') return;
         assert.ok(

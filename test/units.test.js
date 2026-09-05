@@ -5,35 +5,50 @@ import {
   KNOWN_UNITS,
   assertKnownUnit,
   ceilWhole,
+  densityOf,
   formatQuantity,
   fromGrams,
   isCountUnit,
+  isVolumeUnit,
   isWeightUnit,
   roundGrams,
   toGrams,
+  toMillilitres,
   unitWeightOf,
 } from '../src/units.js';
 
 const onion = { id: 'onion', purchase: { unit: 'each', unit_weight_g: 150 } };
 const lemon = { id: 'lemon', purchase: { unit: 'each', unit_weight_g: null } };
 const mince = { id: 'mince', purchase: { unit: 'g', unit_weight_g: null } };
+const oil = { id: 'oil', purchase: { unit: 'g', density_g_per_ml: 0.91 } };
+const stock = { id: 'stock', purchase: { unit: 'g', density_g_per_ml: null } };
 
 describe('unit classification', () => {
-  it('knows weight units from count units', () => {
+  it('knows weight, volume and count units apart', () => {
     assert.ok(isWeightUnit('g'));
     assert.ok(isWeightUnit('kg'));
     assert.ok(!isWeightUnit('each'));
+    assert.ok(!isWeightUnit('ml'));
+    assert.ok(isVolumeUnit('ml'));
+    assert.ok(isVolumeUnit('l'));
+    assert.ok(!isVolumeUnit('g'));
     assert.ok(isCountUnit('each'));
     assert.ok(!isCountUnit('g'));
   });
 
   it('rejects units it cannot convert, naming what it accepts', () => {
-    assert.throws(() => assertKnownUnit('ml'), /Unknown unit "ml"/);
-    assert.throws(() => assertKnownUnit('tbsp'), new RegExp(KNOWN_UNITS.join(', ')));
+    assert.throws(() => assertKnownUnit('tbsp'), /Unknown unit "tbsp"/);
+    assert.throws(() => assertKnownUnit('cup'), new RegExp(KNOWN_UNITS.join(', ')));
   });
 
   it('includes the ingredient in the error so you can find the bad line', () => {
-    assert.throws(() => toGrams(1, 'ml', mince), /\(mince\)/);
+    assert.throws(() => toGrams(1, 'tbsp', mince), /\(mince\)/);
+  });
+
+  it('normalises litres into millilitres', () => {
+    assert.equal(toMillilitres(1.5, 'l'), 1500);
+    assert.equal(toMillilitres(250, 'ml'), 250);
+    assert.throws(() => toMillilitres(1, 'g'), /not a volume unit/);
   });
 });
 
@@ -59,6 +74,21 @@ describe('toGrams', () => {
     assert.equal(unitWeightOf({ purchase: {} }), null);
     assert.equal(unitWeightOf(undefined), null);
   });
+
+  it('weighs a volume using density_g_per_ml', () => {
+    assert.equal(roundGrams(toGrams(200, 'ml', oil)), 182);
+    assert.equal(roundGrams(toGrams(1, 'l', oil)), 910);
+  });
+
+  it('returns null — not an error — for a volume with no density', () => {
+    assert.equal(toGrams(200, 'ml', stock), null);
+  });
+
+  it('treats a zero or missing density as unknown', () => {
+    assert.equal(densityOf({ purchase: { density_g_per_ml: 0 } }), null);
+    assert.equal(densityOf({ purchase: {} }), null);
+    assert.equal(densityOf(undefined), null);
+  });
 });
 
 describe('fromGrams', () => {
@@ -72,6 +102,15 @@ describe('fromGrams', () => {
 
   it('returns null when there is no unit weight to divide by', () => {
     assert.equal(fromGrams(450, 'each', lemon), null);
+  });
+
+  it('converts grams back into volume through the density', () => {
+    assert.equal(fromGrams(182, 'ml', oil), 200);
+    assert.equal(fromGrams(910, 'l', oil), 1);
+  });
+
+  it('returns null when there is no density to divide by', () => {
+    assert.equal(fromGrams(200, 'ml', stock), null);
   });
 });
 
@@ -118,5 +157,11 @@ describe('formatQuantity', () => {
   it('normalises a kg input the same way', () => {
     assert.equal(formatQuantity(1.5, 'kg'), '1.5kg');
     assert.equal(formatQuantity(0.4, 'kg'), '400g');
+  });
+
+  it('writes volumes in ml, rolling up to litres', () => {
+    assert.equal(formatQuantity(250, 'ml'), '250ml');
+    assert.equal(formatQuantity(1500, 'ml'), '1.5L');
+    assert.equal(formatQuantity(0.4, 'l'), '400ml');
   });
 });

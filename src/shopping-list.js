@@ -14,8 +14,11 @@ import {
   assertKnownUnit,
   ceilWhole,
   fromGrams,
+  isCountUnit,
   roundGrams,
+  roundMillilitres,
   toGrams,
+  toMillilitres,
 } from './units.js';
 
 function indexById(rows, what) {
@@ -99,26 +102,31 @@ export function expandPlan(plan, { ingredients, recipes }) {
  * in the ingredient's own `purchase.unit` — grams for things you buy by
  * weight, whole items for things you buy by the item.
  *
- * When an ingredient is counted but has no `unit_weight_g`, those counts
- * cannot join the gram total. Rather than inventing a weight, they stay a
- * separate part of the same line and `needs_unit_weight` says why.
+ * When an ingredient is counted but has no `unit_weight_g` — or measured by
+ * volume with no `density_g_per_ml` — those lines cannot join the gram total.
+ * Rather than inventing a weight, they stay a separate part of the same line
+ * and `needs_unit_weight` / `needs_density` say which figure is missing.
  */
 function mergeIngredient(ingredient, lines) {
   let grams = 0;
   let unconvertedCount = 0;
+  let unconvertedMl = 0;
   let hasGrams = false;
 
   for (const line of lines) {
     const asGrams = toGrams(line.qty, line.unit, ingredient);
-    if (asGrams === null) {
-      unconvertedCount += line.qty;
-    } else {
+    if (asGrams !== null) {
       grams += asGrams;
       hasGrams = true;
+    } else if (isCountUnit(line.unit)) {
+      unconvertedCount += line.qty;
+    } else {
+      unconvertedMl += toMillilitres(line.qty, line.unit);
     }
   }
 
   const needsUnitWeight = unconvertedCount > 0;
+  const needsDensity = unconvertedMl > 0;
   const displayUnit = ingredient.purchase?.unit === 'each' ? 'each' : 'g';
   const parts = [];
 
@@ -127,7 +135,7 @@ function mergeIngredient(ingredient, lines) {
   let unit = null;
   let exactQty = null;
 
-  if (!needsUnitWeight) {
+  if (!needsUnitWeight && !needsDensity) {
     // The normal case: one number, in the unit you buy the thing in.
     totalG = roundGrams(grams);
     if (displayUnit === 'each') {
@@ -140,16 +148,22 @@ function mergeIngredient(ingredient, lines) {
     unit = displayUnit;
     parts.push({ qty, unit });
   } else {
-    // Counts we could not weigh. Keep them honest and separate.
-    if (hasGrams) {
-      totalG = null;
-      parts.push({ qty: roundGrams(grams), unit: 'g' });
+    // Lines we could not weigh. Keep them honest and separate rather than
+    // folding them into a gram total that would be a guess.
+    if (hasGrams) parts.push({ qty: roundGrams(grams), unit: 'g' });
+    if (needsUnitWeight) {
       parts.push({ qty: ceilWhole(unconvertedCount), unit: 'each' });
-    } else {
-      qty = ceilWhole(unconvertedCount);
-      exactQty = unconvertedCount;
-      unit = 'each';
-      parts.push({ qty, unit });
+    }
+    if (needsDensity) {
+      parts.push({ qty: roundMillilitres(unconvertedMl), unit: 'ml' });
+    }
+
+    // Only one part means there is still a single number to write down, even
+    // though it is not in the unit you buy the thing in.
+    if (parts.length === 1) {
+      qty = parts[0].qty;
+      unit = parts[0].unit;
+      exactQty = needsUnitWeight ? unconvertedCount : unconvertedMl;
     }
   }
 
@@ -163,6 +177,7 @@ function mergeIngredient(ingredient, lines) {
     total_g: totalG,
     parts,
     needs_unit_weight: needsUnitWeight,
+    needs_density: needsDensity,
     sources: lines.map((line) => ({
       recipe_id: line.recipe_id,
       recipe_name: line.recipe_name,
@@ -222,4 +237,12 @@ export function groupByCategory(list) {
  */
 export function missingUnitWeights(list) {
   return list.filter((item) => item.needs_unit_weight).map((item) => item.ingredient_id);
+}
+
+/**
+ * The same nag list for `purchase.density_g_per_ml`: ingredients a recipe
+ * asked for in millilitres that nobody has weighed a millilitre of.
+ */
+export function missingDensities(list) {
+  return list.filter((item) => item.needs_density).map((item) => item.ingredient_id);
 }

@@ -1,0 +1,526 @@
+/*
+ * Built for a phone in one hand in a supermarket, and an iPad on the counter.
+ *
+ * Two rules drive most of what follows:
+ *   - Nothing is hover-only. A touch device has no hover, so every state a
+ *     control can be in is either always visible or shown on :active.
+ *   - Every control is at least 44px on its shortest side, which is Apple's
+ *     minimum comfortable target, and 56px in shop mode where you are
+ *     tapping one-handed with a trolley in the other.
+ */
+
+:root {
+  --bg: #f6f5f1;
+  --surface: #ffffff;
+  --ink: #191c1a;
+  --ink-soft: #5c645f;
+  --ink-faint: #8a918c;
+  --line: #e2e0da;
+  --accent: #1f6f4a;
+  --accent-ink: #ffffff;
+  --warn: #9a5b12;
+  --radius: 14px;
+  --tap: 44px;
+  --pad: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1512;
+    --surface: #191f1c;
+    --ink: #eef1ee;
+    --ink-soft: #a7b0aa;
+    --ink-faint: #7a837d;
+    --line: #2b332e;
+    --accent: #4bbd85;
+    --accent-ink: #08130d;
+    --warn: #e0a758;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html {
+  /* Stops iOS bumping up the font when you rotate an iPhone to landscape. */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--ink);
+  font: 17px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
+}
+
+button, input, select {
+  font: inherit;
+  color: inherit;
+  /* Safari refuses to style a button's text colour without this. */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+button {
+  /* Kills the 300ms tap delay and the grey flash iOS paints over taps; the
+     :active rules below give the feedback instead. */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  border: 0;
+  background: none;
+}
+
+h1, h2, h3 { margin: 0; }
+
+/* ------------------------------------------------------------------ chrome */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: calc(10px + env(safe-area-inset-top)) var(--pad) 0;
+  padding-left: calc(var(--pad) + env(safe-area-inset-left));
+  padding-right: calc(var(--pad) + env(safe-area-inset-right));
+}
+
+.topbar h1 {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.tabs { display: flex; gap: 4px; margin-top: 8px; }
+
+.tab {
+  flex: 1;
+  min-height: var(--tap);
+  padding: 0 12px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  border-bottom: 3px solid transparent;
+}
+
+.tab[aria-selected="true"] {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+
+.tab:active { background: var(--bg); }
+
+.badge {
+  display: inline-block;
+  min-width: 22px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 13px;
+  font-weight: 700;
+  vertical-align: 1px;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding-left: calc(var(--pad) + env(safe-area-inset-left));
+  padding-right: calc(var(--pad) + env(safe-area-inset-right));
+}
+
+.view > h2 {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 28px 0 10px;
+}
+
+.error {
+  margin: var(--pad);
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--warn);
+  color: #fff;
+}
+
+.empty {
+  margin: 0;
+  padding: 20px 16px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.summary { margin: 12px 2px; color: var(--ink-soft); font-size: 15px; }
+
+/* -------------------------------------------------------------- week bar */
+
+.weekbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.week-step {
+  width: var(--tap);
+  height: var(--tap);
+  flex: none;
+  border-radius: 10px;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--ink-soft);
+  background: var(--bg);
+}
+
+.week-step:active { background: var(--line); }
+
+.week-of { flex: 1; min-width: 0; text-align: center; }
+
+.week-of label {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* 16px or more, or Safari zooms the page in when the field takes focus. */
+#week-date {
+  width: 100%;
+  min-height: 32px;
+  padding: 2px;
+  border: 0;
+  background: none;
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.week-range { margin: 0; font-size: 14px; color: var(--ink-soft); }
+
+/* ---------------------------------------------------------------- meals */
+
+.meals, .recipes, .items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.meal, .recipe {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.recipe-main { flex: 1; min-width: 0; }
+
+/*
+ * A meal has four controls after its name, which will not fit beside it on a
+ * phone — the name gets crushed to two characters. So the card wraps to two
+ * rows by default and only goes back to one line when there is room, which
+ * on an iPad there always is.
+ */
+.meal { flex-wrap: wrap; row-gap: 8px; }
+.meal-main { flex: 1 1 100%; min-width: 0; }
+.meal-controls { flex: 1 1 100%; justify-content: space-between; }
+
+@media (min-width: 560px) {
+  .meal-main { flex: 1 1 auto; }
+  .meal-controls { flex: 0 0 auto; }
+}
+
+.meal-name, .recipe-name {
+  display: block;
+  font-weight: 600;
+}
+
+.meal-note, .recipe-note, .recipe-count {
+  display: block;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.recipe-count { color: var(--accent); font-weight: 600; }
+
+.meal-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.day-select {
+  min-height: var(--tap);
+  padding: 0 26px 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  font-size: 16px;
+  /* No native arrow once appearance is stripped, so draw one. */
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%),
+                    linear-gradient(135deg, var(--ink-soft) 50%, transparent 50%);
+  background-position: right 13px center, right 8px center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.step {
+  width: var(--tap);
+  height: var(--tap);
+  font-size: 22px;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.step:active { background: var(--line); }
+
+.step-value {
+  min-width: 30px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.remove {
+  width: var(--tap);
+  height: var(--tap);
+  flex: none;
+  border-radius: 10px;
+  font-size: 18px;
+  color: var(--ink-faint);
+}
+
+.remove:active { background: var(--line); color: var(--ink); }
+
+.add {
+  flex: none;
+  min-height: var(--tap);
+  padding: 0 20px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+.add:active { filter: brightness(0.88); }
+
+/* -------------------------------------------------------------- buttons */
+
+.primary, .ghost {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  border-radius: var(--radius);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.primary { background: var(--accent); color: var(--accent-ink); }
+.primary:active { filter: brightness(0.88); }
+
+.ghost {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+}
+
+.ghost:active { background: var(--line); }
+
+.page-action { margin: 24px 0 8px; }
+
+/* -------------------------------------------------------- shopping list */
+
+.list-top {
+  position: sticky;
+  top: var(--topbar-h, 0px);
+  z-index: 4;
+  margin: 0 -4px;
+  padding: 12px 4px;
+  background: var(--bg);
+}
+
+.list-actions { display: flex; gap: 8px; }
+
+.toggle {
+  flex: 1;
+  min-height: var(--tap);
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.toggle[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.list-actions .ghost { flex: none; width: auto; min-height: var(--tap); padding: 0 16px; }
+
+.progress-text { margin: 10px 2px 6px; font-size: 15px; color: var(--ink-soft); }
+
+.progress {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.2s ease-out;
+}
+
+.aisle { margin-top: 22px; }
+
+.aisle-head {
+  position: sticky;
+  /* Sits directly under the top bar and the list controls, both of which are
+     also sticky. Their heights change with the safe-area inset and the text
+     size, so app.js measures them instead of hard-coding a number. */
+  top: calc(var(--topbar-h, 0px) + var(--listtop-h, 0px));
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  padding: 6px 2px;
+  background: var(--bg);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.aisle-head.is-done { color: var(--accent); }
+
+.aisle-count { font-variant-numeric: tabular-nums; }
+
+.items { margin-top: 6px; }
+
+.item {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+/* The whole row is the tap target, not a small checkbox in the corner. */
+.item-hit {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.item-hit:active { background: var(--bg); }
+
+.item-box {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--line);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent-ink);
+}
+
+.item.is-ticked .item-box {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.item-text { flex: 1; min-width: 0; }
+
+.item-name { display: block; font-weight: 600; }
+
+.item-from, .item-gap {
+  display: block;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.item-gap { color: var(--warn); }
+
+.item-qty {
+  flex: none;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.item.is-ticked .item-name,
+.item.is-ticked .item-qty {
+  color: var(--ink-faint);
+  text-decoration: line-through;
+}
+
+.item.is-ticked .item-from { color: var(--ink-faint); }
+
+/* --------------------------------------------------------- shop mode */
+
+/*
+ * One-handed, at arm's length, in a shop: bigger rows, bigger type, and the
+ * provenance line dropped so each item is one glance rather than two.
+ */
+.shop-mode .item-hit { min-height: 64px; gap: 14px; padding: 12px 14px; }
+.shop-mode .item-name { font-size: 19px; }
+.shop-mode .item-qty { font-size: 19px; }
+.shop-mode .item-box { width: 30px; height: 30px; }
+.shop-mode .aisle-head { font-size: 14px; }
+.shop-mode .item.is-ticked { opacity: 0.5; }
+
+/* ------------------------------------------------------------ pointers */
+
+/* Hover styles only where a pointer actually exists — an iPad with a
+   trackpad gets them, a finger never does. */
+@media (hover: hover) {
+  .tab:hover, .step:hover, .week-step:hover, .ghost:hover { background: var(--line); }
+  .item-hit:hover { background: var(--bg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress span { transition: none; }
+}
