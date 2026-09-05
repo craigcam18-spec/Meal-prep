@@ -7,6 +7,29 @@ retrospectively and automatically.
 
 ---
 
+## 0. Where each thing lives
+
+Three stores, and which one a thing belongs in follows from how it changes.
+
+| what | where | why there |
+|---|---|---|
+| Ingredients | `data/ingredients.json`, in git | Reference data. Changes rarely and deliberately, is the same for everybody, and every number in it wants reviewing — so it wants a diff and a test, which is what a file in git gives you. |
+| Recipes | **Cloudflare D1** | The one thing you add to from your phone, from a Reel, standing in the kitchen. A file in git cannot take a write from a form. |
+| Week plan | `localStorage` | Personal, changes daily, different on every device. Belongs to the browser, not the repo. |
+| Shopping list, nutrition | nowhere | Derived. Recalculated on every render — see §4. |
+
+The split is not arbitrary: **written by a person, in advance → git. Written by
+the app, at any moment → D1. Written by you, about this week only → the
+browser.**
+
+Recipes reference ingredients by id across that boundary, and nothing enforces
+it at the database level — D1 has no idea `data/ingredients.json` exists. The
+API checks every `ingredient_id` against the file before it writes, because an
+id with nothing behind it does not fail quietly: `expandPlan` throws on it and
+takes the whole week's shopping list down.
+
+---
+
 ## 1. Ingredients (`/data/ingredients.json`)
 
 The master list. One entry per thing you cook with.
@@ -89,7 +112,36 @@ the CoFID row to raw every time. Put which row you used in `source_detail`.
 
 ---
 
-## 2. Recipes (`/data/recipes.json`)
+## 2. Recipes (Cloudflare D1)
+
+Recipes used to be `data/recipes.json`. They live in D1 now, in three tables:
+a recipe is a header plus two ordered lists, and SQL has no row order of its
+own, so the order is an explicit `position` column. Step 3 before step 1 is a
+broken recipe.
+
+```
+recipes             id, name, servings,
+                    source_type, source_url, source_creator,
+                    source_captured_text, source_imported, created_at
+
+recipe_ingredients  recipe_id, position, ingredient_id, qty, unit
+recipe_steps        recipe_id, position, text
+```
+
+The schema is `db/schema.sql`, the Beef chilli that came across from the old
+file is `db/seed.sql`, and `src/recipes-store.js` holds the queries.
+
+`unit` is constrained in the table as well as in the API, because the set of
+units is a property of the data model rather than of one code path: `g`, `kg`,
+`ml`, `l`, `each` and nothing else (see §1).
+
+`ingredient_id` has no foreign key — the ingredients are in git, not in the
+database. The API validates it instead; §0 says why that matters.
+
+### Over the wire
+
+`/api/recipes` speaks the shape the old JSON file had, so nothing downstream
+of it had to change:
 
 ```json
 {
@@ -115,17 +167,43 @@ the CoFID row to raw every time. Put which row you used in `source_detail`.
 }
 ```
 
+| route | does |
+|---|---|
+| `GET /api/recipes` | every recipe, by name |
+| `POST /api/recipes` | create one; the id is generated from the name |
+| `GET /api/recipes/:id` | one recipe |
+| `DELETE /api/recipes/:id` | remove it and its lines and steps |
+
+A create is one D1 batch, which is one transaction: a recipe never lands
+without its ingredients. A delete removes the child rows explicitly rather than
+relying on `ON DELETE CASCADE`, which only fires when the connection has
+foreign keys switched on — orphaned rows would stay invisible until something
+reused the id.
+
+Ids come from the name (`Beef chilli` → `beef-chilli`), and a second recipe
+with a name already taken becomes `beef-chilli-2` rather than being refused.
+Two chillis is a thing that happens.
+
+### `captured_text`
+
 `captured_text` matters: Reels get deleted and accounts go private. The URL
 alone isn't a backup. The raw caption survives independently and lets you
 reconstruct the recipe if the original vanishes.
+
+Which is why it is required for anything imported and empty for anything you
+typed in yourself — there was never any original text in that case, and `''`
+is the honest answer rather than a placeholder. `source_type` is `manual` for
+those.
 
 `creator` is its own field so you can find everything from one person later.
 
 ---
 
-## 3. Week plan (browser localStorage, not the repo)
+## 3. Week plan (browser localStorage, not the repo, not D1)
 
-This changes constantly and is personal — it doesn't belong in git.
+This changes constantly and is personal — it doesn't belong in git, and it
+doesn't belong in a database either: there is nobody else to share it with,
+and a second device wanting its own week is a feature.
 
 ```json
 {
@@ -144,8 +222,8 @@ and have no stable identity of their own. IDs that are no longer on the list
 are dropped on the next write, so a tick never outlives the meal that put
 the ingredient there.
 
-Nothing here goes in git. It is personal, it changes daily, and every
-device keeps its own.
+Nothing here is written anywhere but the browser it was typed into. It is
+personal, it changes daily, and every device keeps its own.
 
 ---
 
@@ -168,7 +246,9 @@ Calculate these fresh each time. Storing them is how the numbers go stale.
    Combining 300g and 500g of mince correctly is the fiddly bit — do it first.
 2. ~~Pick-your-week screen → shopping list, grouped by aisle, with a
    tick-off mode for in the shop.~~ Done — `index.html` + `src/app.js`.
-3. Manual nutrition entry (`source: "manual"`) + estimate flagging.
+3. ~~Recipes into D1, and a form to add one without editing a file.~~ Done —
+   `db/`, `functions/api/`, and the third screen.
+4. Manual nutrition entry (`source: "manual"`) + estimate flagging.
 
 Later, once it's earning its keep: barcode scan → Open Food Facts, then
 photo of the nutrition panel via a vision API behind a Cloudflare Pages

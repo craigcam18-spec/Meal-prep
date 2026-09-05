@@ -1,0 +1,25 @@
+# Local development only. Copy this to `wrangler.toml` — which is gitignored —
+# and `wrangler pages dev` will serve the Pages Functions with a local D1
+# database behind them.
+#
+# Why it is an example rather than the real thing: a Pages project that has a
+# wrangler.toml in its repo takes its bindings from that file and ignores the
+# ones set in the dashboard. Deployment here is set up from the dashboard (see
+# README.md), so a committed config would quietly override it — and the
+# database_id below is a local placeholder that would be wrong for anybody
+# else's account anyway.
+#
+#   cp wrangler.example.toml wrangler.toml
+#   npx wrangler d1 execute DB --local --file=db/schema.sql
+#   npx wrangler d1 execute DB --local --file=db/seed.sql
+#   npx wrangler pages dev
+
+name = "meal-prep"
+pages_build_output_dir = "."
+compatibility_date = "2026-09-05"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "meal-prep"
+# Only ever used locally, so it never has to match the real database.
+database_id = "local"

@@ -55,7 +55,7 @@ body {
   padding-bottom: calc(24px + env(safe-area-inset-bottom));
 }
 
-button, input, select {
+button, input, select, textarea {
   font: inherit;
   color: inherit;
   /* Safari refuses to style a button's text colour without this. */
@@ -101,7 +101,8 @@ h1, h2, h3 { margin: 0; }
 .tab {
   flex: 1;
   min-height: var(--tap);
-  padding: 0 12px;
+  /* Three tabs across the narrowest phone, so the padding has to earn itself. */
+  padding: 0 8px;
   font-size: 17px;
   font-weight: 600;
   color: var(--ink-soft);
@@ -134,7 +135,8 @@ main {
   padding-right: calc(var(--pad) + env(safe-area-inset-right));
 }
 
-.view > h2 {
+/* Not `> h2`: the add-recipe screen's headings sit inside its <form>. */
+.view h2 {
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -233,7 +235,7 @@ main {
   border-radius: var(--radius);
 }
 
-.recipe-main { flex: 1; min-width: 0; }
+.recipe-main { min-width: 0; }
 
 /*
  * A meal has four controls after its name, which will not fit beside it on a
@@ -248,6 +250,17 @@ main {
 @media (min-width: 560px) {
   .meal-main { flex: 1 1 auto; }
   .meal-controls { flex: 0 0 auto; }
+}
+
+/* The recipe card gained a delete button next to Add, which is one control
+   too many beside a long name on a phone. Same treatment as a meal card. */
+.recipe { flex-wrap: wrap; row-gap: 8px; }
+.recipe-main { flex: 1 1 100%; }
+.recipe .add { flex: 1 1 auto; }
+
+@media (min-width: 420px) {
+  .recipe-main { flex: 1 1 auto; }
+  .recipe .add { flex: 0 0 auto; }
 }
 
 .meal-name, .recipe-name {
@@ -511,6 +524,242 @@ main {
 .shop-mode .item-box { width: 30px; height: 30px; }
 .shop-mode .aisle-head { font-size: 14px; }
 .shop-mode .item.is-ticked { opacity: 0.5; }
+
+/* ------------------------------------------------------- add recipe form */
+
+/*
+ * Same sizing rules as the other screens: nothing under 44px on its shortest
+ * side, and every text field at 16px or more so Safari does not zoom the page
+ * in when one takes focus. On a phone a form row stacks; from 560px up — an
+ * iPad in either orientation — it goes back to one line.
+ */
+
+.field { margin-top: 16px; }
+
+.field-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.field-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.field-inline .field-label { margin-bottom: 0; }
+
+.field-hint { margin: 6px 2px 0; font-size: 14px; color: var(--ink-soft); }
+
+/* For a control a heading already names on screen but a screen reader would
+   otherwise meet unlabelled. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.text-input {
+  display: block;
+  width: 100%;
+  min-height: var(--tap);
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  font-size: 17px;
+}
+
+textarea.text-input { line-height: 1.4; resize: vertical; }
+
+select.text-input {
+  padding-right: 34px;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%),
+                    linear-gradient(135deg, var(--ink-soft) 50%, transparent 50%);
+  background-position: right 17px center, right 12px center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+.text-input:focus-visible,
+.line-ingredient:focus-visible,
+.line-qty:focus-visible,
+.line-unit:focus-visible,
+.step-text:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.lines, .steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* An ingredient line is a picker, a quantity, a unit and a remove button —
+   far too much for one row on a phone, so the picker takes a row of its own
+   and the rest sit under it. */
+.line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.line-ingredient {
+  flex: 1 1 100%;
+  min-width: 0;
+  min-height: var(--tap);
+  padding: 0 30px 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  font-size: 16px;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%),
+                    linear-gradient(135deg, var(--ink-soft) 50%, transparent 50%);
+  background-position: right 15px center, right 10px center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+.line-controls {
+  flex: 1 1 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.line-qty {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: var(--tap);
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The spin buttons are a 12px target and useless on a touch screen. */
+.line-qty::-webkit-outer-spin-button,
+.line-qty::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.line-qty { -moz-appearance: textfield; }
+
+.line-unit {
+  flex: 0 0 88px;
+  min-height: var(--tap);
+  padding: 0 24px 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  font-size: 16px;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%),
+                    linear-gradient(135deg, var(--ink-soft) 50%, transparent 50%);
+  background-position: right 11px center, right 6px center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+/* Same warning colour as the shopping list's own gap line — it is the same
+   missing figure, said earlier. */
+.line-gap {
+  flex: 1 1 100%;
+  margin: 0;
+  font-size: 13px;
+  color: var(--warn);
+}
+
+.step-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.step-number {
+  flex: none;
+  width: 26px;
+  min-height: var(--tap);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-faint);
+}
+
+.step-text {
+  flex: 1;
+  min-width: 0;
+  min-height: var(--tap);
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  font-size: 16px;
+  line-height: 1.4;
+  resize: none;
+  overflow: hidden;
+}
+
+.step-row .remove { align-self: center; }
+
+.add-row { margin-top: 10px; }
+
+/* Errors and the one success line share a box: both are the form answering
+   you, and both belong directly above the button you just pressed. */
+.form-notice {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  border: 1px solid;
+  font-size: 15px;
+}
+
+.form-notice li + li { margin-top: 6px; }
+
+.form-notice.is-bad {
+  border-color: var(--warn);
+  color: var(--warn);
+  background: color-mix(in srgb, var(--warn) 10%, var(--surface));
+}
+
+.form-notice.is-good {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+}
+
+.primary[disabled] { opacity: 0.6; }
+.step[disabled] { opacity: 0.35; }
+
+@media (min-width: 560px) {
+  .line-ingredient { flex: 1 1 auto; }
+  .line-controls { flex: 0 0 auto; }
+  .line-qty { flex: 0 0 96px; }
+}
 
 /* ------------------------------------------------------------ pointers */
 

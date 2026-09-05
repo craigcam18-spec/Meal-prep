@@ -1,14 +1,21 @@
 /**
- * Pick-your-week screen and shopping list view.
+ * The three screens: pick your week, the shopping list, and add a recipe.
  *
  * No build step: this is an ES module the browser loads directly, importing
  * the same shopping-list code the tests run against. The list is never
- * stored — it is rebuilt by `buildShoppingList` from ingredients.json,
- * recipes.json and the week plan on every render, which is what lets a
- * corrected ingredient show up everywhere at once (DATA_MODEL.md §4).
+ * stored — it is rebuilt by `buildShoppingList` from the ingredients, the
+ * recipes and the week plan on every render, which is what lets a corrected
+ * ingredient show up everywhere at once (DATA_MODEL.md §4).
+ *
+ * Where those three come from is now three different places, which is the
+ * whole of DATA_MODEL.md §0: ingredients from a file in git, recipes from D1
+ * over /api/recipes, the week plan from localStorage.
  */
 
-import { aisleLabel, toAisles } from './aisles.js';
+import { toAisles } from './aisles.js';
+import { button, node, replace } from './dom.js';
+import { createRecipeForm } from './recipe-form.js';
+import { createRecipe, deleteRecipe, listRecipes } from './recipes-client.js';
 import { buildShoppingList, groupByCategory } from './shopping-list.js';
 import { formatQuantity } from './units.js';
 import {
@@ -46,6 +53,7 @@ const el = {
   plannedSummary: document.querySelector('#planned-summary'),
   clearWeek: document.querySelector('#clear-week'),
   recipes: document.querySelector('#recipes'),
+  recipesEmpty: document.querySelector('#recipes-empty'),
   listHeader: document.querySelector('#list-header'),
   listProgress: document.querySelector('#list-progress'),
   listBar: document.querySelector('#list-bar'),
@@ -53,25 +61,21 @@ const el = {
   listEmpty: document.querySelector('#list-empty'),
   shopMode: document.querySelector('#shop-mode'),
   clearTicks: document.querySelector('#clear-ticks'),
+  addView: document.querySelector('#view-add'),
   error: document.querySelector('#error'),
 };
 
 /* ------------------------------------------------------------------ data */
 
-async function loadData() {
-  const fetchJson = async (name) => {
-    const url = new URL(`../data/${name}`, import.meta.url);
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`${name}: ${response.status}`);
-    return response.json();
-  };
+async function loadIngredients() {
+  const url = new URL('../data/ingredients.json', import.meta.url);
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`ingredients.json: ${response.status}`);
+  return response.json();
+}
 
-  const [ingredients, recipes] = await Promise.all([
-    fetchJson('ingredients.json'),
-    fetchJson('recipes.json'),
-  ]);
-
-  state.ingredients = ingredients;
+/** Take a fresh list of recipes from the API and rebuild the index off it. */
+function setRecipes(recipes) {
   state.recipes = recipes;
   state.recipeIndex = new Map(recipes.map((r) => [r.id, r]));
 }
@@ -131,6 +135,32 @@ function setMeal(index, changes) {
   });
 }
 
+/**
+ * Delete a recipe from D1, and with it any meal in the week that used it.
+ *
+ * The week screen already skips meals whose recipe has gone, but leaving them
+ * in localStorage means a plan that quietly refers to something that no longer
+ * exists. Deleting a recipe is deliberate and irreversible, so tidy up.
+ */
+async function removeRecipe(recipe) {
+  const planned = state.plan.meals.filter((meal) => meal.recipe_id === recipe.id).length;
+  const also = planned === 0
+    ? ''
+    : ` It is in this week ${planned === 1 ? 'once' : `${planned} times`}.`;
+  if (!window.confirm(`Delete the ${recipe.name} recipe?${also} This cannot be undone.`)) return;
+
+  try {
+    await deleteRecipe(recipe.id);
+  } catch (error) {
+    showError(`Could not delete ${recipe.name}: ${error.message}`);
+    return;
+  }
+
+  clearError();
+  setRecipes(state.recipes.filter((entry) => entry.id !== recipe.id));
+  update({ meals: state.plan.meals.filter((meal) => meal.recipe_id !== recipe.id) });
+}
+
 function toggleTick(ingredientId) {
   const ticked = new Set(state.plan.ticked_off);
   if (ticked.has(ingredientId)) ticked.delete(ingredientId);
@@ -140,28 +170,14 @@ function toggleTick(ingredientId) {
 
 /* ------------------------------------------------------------------- dom */
 
-function node(tag, className, text) {
-  const element = document.createElement(tag);
-  if (className) element.className = className;
-  if (text !== undefined) element.textContent = text;
-  return element;
-}
-
-function button(className, label, onClick, { ariaLabel } = {}) {
-  const element = node('button', className, label);
-  element.type = 'button';
-  if (ariaLabel) element.setAttribute('aria-label', ariaLabel);
-  element.addEventListener('click', onClick);
-  return element;
-}
-
-function replace(parent, children) {
-  parent.replaceChildren(...children);
-}
-
 function showError(message) {
   el.error.textContent = message;
   el.error.hidden = false;
+}
+
+function clearError() {
+  el.error.textContent = '';
+  el.error.hidden = true;
 }
 
 /**
@@ -318,11 +334,17 @@ function recipeCard(recipe) {
       ariaLabel: `Add ${recipe.name} to the week`,
     })
   );
+  card.append(
+    button('remove', '✕', () => removeRecipe(recipe), {
+      ariaLabel: `Delete the ${recipe.name} recipe`,
+    })
+  );
   return card;
 }
 
 function renderRecipes() {
   replace(el.recipes, state.recipes.map(recipeCard));
+  el.recipesEmpty.hidden = state.recipes.length > 0;
 }
 
 /* ---------------------------------------------------- shopping list screen */
@@ -483,22 +505,52 @@ function wire() {
   document.querySelector('#go-shopping').addEventListener('click', () => setView('list'));
   document.querySelector('#go-week').addEventListener('click', () => setView('week'));
 
+  createRecipeForm({
+    root: el.addView,
+    ingredients: state.ingredients,
+    save: createRecipe,
+    // The API hands back the recipe it stored, id and all, so the new card
+    // appears without re-fetching the whole list.
+    onSaved: (recipe) => {
+      clearError();
+      setRecipes([...state.recipes, recipe].sort((a, b) => a.name.localeCompare(b.name)));
+      render();
+    },
+  });
+
   // Rotating an iPad changes both sticky bar heights.
   window.addEventListener('resize', measureSticky);
   window.addEventListener('orientationchange', measureSticky);
 }
 
+/**
+ * Ingredients and recipes now fail in different ways, so they are loaded and
+ * reported separately.
+ *
+ * No ingredients means no app at all — every screen is built out of them.
+ * No recipes API means the site is up but D1 is not reachable: the week and
+ * the list still work with whatever is planned, and the message says which
+ * of the two likely causes it is rather than "something went wrong".
+ */
 async function start() {
   state.plan = loadPlan();
+
   try {
-    await loadData();
+    state.ingredients = await loadIngredients();
   } catch (error) {
     showError(
-      `Could not load the ingredient and recipe data (${error.message}). ` +
+      `Could not load data/ingredients.json (${error.message}). ` +
         'Open the site over http, not by double-clicking the file.'
     );
     return;
   }
+
+  try {
+    setRecipes(await listRecipes());
+  } catch (error) {
+    showError(`Could not load your recipes. ${error.message}`);
+  }
+
   wire();
   render();
 }

@@ -1,2 +1,9 @@
 node_modules/
 .DS_Store
+
+# Local-only wrangler config (copy wrangler.example.toml) and the local D1
+# database wrangler keeps beside it. Neither belongs to anyone but this
+# machine — and a committed wrangler.toml would override the Pages bindings
+# set in the dashboard.
+wrangler.toml
+.wrangler/

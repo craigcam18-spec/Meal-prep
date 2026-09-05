@@ -25,8 +25,10 @@
             data-tab="week" aria-selected="true">Week</button>
     <button type="button" class="tab" role="tab" id="tab-list" aria-controls="view-list"
             data-tab="list" aria-selected="false">
-      Shopping list <span class="badge" id="tab-list-count" hidden></span>
+      List <span class="badge" id="tab-list-count" hidden></span>
     </button>
+    <button type="button" class="tab" role="tab" id="tab-add" aria-controls="view-add"
+            data-tab="add" aria-selected="false">Add recipe</button>
   </div>
 </header>
 
@@ -52,6 +54,9 @@
     <button type="button" class="ghost" id="clear-week" hidden>Clear the week</button>
 
     <h2>Add a meal</h2>
+    <p class="empty" id="recipes-empty" hidden>
+      No recipes yet. The “Add recipe” tab is where they come from.
+    </p>
     <ul class="recipes" id="recipes"></ul>
 
     <button type="button" class="primary page-action" id="go-shopping">
@@ -76,6 +81,73 @@
     <div id="aisles"></div>
 
     <button type="button" class="ghost page-action" id="go-week">Back to the week</button>
+  </section>
+
+  <!--
+    Add recipe. The shell is here and the ingredient lines and steps are built
+    by src/recipe-form.js, the same split the other two screens use: the parts
+    that never change are markup, the lists that grow are DOM.
+  -->
+  <section class="view" id="view-add" role="tabpanel" aria-labelledby="tab-add" data-view="add" hidden>
+    <form id="recipe-form" novalidate>
+
+      <div class="field">
+        <label class="field-label" for="recipe-name">Name</label>
+        <input type="text" id="recipe-name" class="text-input" placeholder="Beef chilli"
+               autocomplete="off" autocapitalize="sentences" enterkeyhint="next">
+      </div>
+
+      <div class="field field-inline">
+        <span class="field-label" id="servings-label">Servings</span>
+        <div class="stepper" role="group" aria-labelledby="servings-label">
+          <button type="button" class="step" id="servings-down" aria-label="One fewer serving">−</button>
+          <span class="step-value" id="recipe-servings" aria-live="polite">4</span>
+          <button type="button" class="step" id="servings-up" aria-label="One more serving">+</button>
+        </div>
+      </div>
+
+      <h2>Ingredients</h2>
+      <p class="empty" id="recipe-lines-empty">No ingredients yet.</p>
+      <ul class="lines" id="recipe-lines"></ul>
+      <button type="button" class="ghost add-row" id="add-line">Add an ingredient</button>
+
+      <h2>Method</h2>
+      <p class="empty" id="recipe-steps-empty">No steps yet.</p>
+      <ol class="steps" id="recipe-steps"></ol>
+      <button type="button" class="ghost add-row" id="add-step">Add a step</button>
+
+      <h2>Where it came from</h2>
+      <div class="field">
+        <!-- The heading already says what this is; the label is here for a
+             screen reader, which reads the control and not the heading. -->
+        <label class="visually-hidden" for="source-type">Where it came from</label>
+        <select id="source-type" class="text-input"></select>
+        <p class="field-hint" id="source-hint"></p>
+      </div>
+
+      <div id="source-fields" hidden>
+        <div class="field">
+          <label class="field-label" for="source-url">Link</label>
+          <input type="url" id="source-url" class="text-input" inputmode="url"
+                 placeholder="https://…" autocomplete="off" autocapitalize="off"
+                 spellcheck="false">
+        </div>
+        <div class="field">
+          <label class="field-label" for="source-creator">Who posted it</label>
+          <input type="text" id="source-creator" class="text-input" placeholder="@handle"
+                 autocomplete="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="field">
+          <label class="field-label" for="source-text">The original text</label>
+          <textarea id="source-text" class="text-input" rows="5"
+                    placeholder="Paste the caption here, exactly as written."></textarea>
+        </div>
+      </div>
+
+      <ul class="form-notice" id="form-notice" role="alert" hidden></ul>
+
+      <button type="submit" class="primary page-action" id="save-recipe">Save recipe</button>
+    </form>
   </section>
 
 </main>
