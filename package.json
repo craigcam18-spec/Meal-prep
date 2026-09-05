@@ -1,0 +1,10 @@
+{
+  "name": "meal-prep",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Meal planner: ingredients, recipes, and a shopping list that merges quantities across recipes.",
+  "scripts": {
+    "test": "node --test \"test/*.test.js\""
+  }
+}

@@ -1,0 +1,590 @@
+[
+  {
+    "id": "beef-mince-5",
+    "name": "Beef mince, 5% fat",
+    "aliases": ["lean beef mince", "extra lean mince", "steak mince"],
+    "category": "meat",
+    "nutrition": {
+      "kcal_per_100g": 130,
+      "protein_per_100g": 21.9,
+      "source": "cofid",
+      "source_detail": "18-508 Beef, mince, raw, extra lean",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+  },
+  {
+    "id": "beef-mince-20",
+    "name": "Beef mince, 20% fat",
+    "aliases": ["beef mince", "minced beef", "mince"],
+    "category": "meat",
+    "nutrition": {
+      "kcal_per_100g": 225,
+      "protein_per_100g": 19.7,
+      "source": "cofid",
+      "source_detail": "18-469 Beef, mince, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+  },
+  {
+    "id": "pork-mince",
+    "name": "Pork mince",
+    "aliases": ["minced pork"],
+    "category": "meat",
+    "nutrition": {
+      "kcal_per_100g": 164,
+      "protein_per_100g": 19.2,
+      "source": "cofid",
+      "source_detail": "18-606 Pork, mince, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+  },
+  {
+    "id": "chicken-breast",
+    "name": "Chicken breast",
+    "aliases": ["chicken breasts", "chicken fillet", "chicken fillets"],
+    "category": "meat",
+    "nutrition": {
+      "kcal_per_100g": 106,
+      "protein_per_100g": 24.0,
+      "source": "cofid",
+      "source_detail": "18-290 Chicken, light meat, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 165, "pack_size_g": 650 }
+  },
+  {
+    "id": "chicken-thigh",
+    "name": "Chicken thighs, boneless skinless",
+    "aliases": ["chicken thighs", "boneless thighs"],
+    "category": "meat",
+    "nutrition": {
+      "kcal_per_100g": 109,
+      "protein_per_100g": 20.9,
+      "source": "cofid",
+      "source_detail": "18-289 Chicken, dark meat, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 90, "pack_size_g": 600 }
+  },
+  {
+    "id": "bacon-back",
+    "name": "Back bacon",
+    "aliases": ["bacon", "bacon rashers", "streaky bacon"],
+    "category": "meat",
+    "nutrition": {
+      "kcal_per_100g": 215,
+      "protein_per_100g": 16.5,
+      "source": "cofid",
+      "source_detail": "19-497 Bacon rashers, back, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 35, "pack_size_g": 300 }
+  },
+  {
+    "id": "pork-sausages",
+    "name": "Pork sausages",
+    "aliases": ["sausages", "bangers"],
+    "category": "meat",
+    "nutrition": {
+      "kcal_per_100g": 309,
+      "protein_per_100g": 11.9,
+      "source": "cofid",
+      "source_detail": "19-510 Sausages, pork, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 67, "pack_size_g": 400 }
+  },
+  {
+    "id": "salmon-fillet",
+    "name": "Salmon fillet",
+    "aliases": ["salmon", "salmon fillets"],
+    "category": "fish",
+    "nutrition": {
+      "kcal_per_100g": 217,
+      "protein_per_100g": 20.4,
+      "source": "cofid",
+      "source_detail": "16-356 Salmon, farmed, flesh only, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 130, "pack_size_g": 260 }
+  },
+  {
+    "id": "tuna-canned",
+    "name": "Tuna, canned in brine",
+    "aliases": ["tinned tuna", "canned tuna", "tuna"],
+    "category": "tinned",
+    "nutrition": {
+      "kcal_per_100g": 109,
+      "protein_per_100g": 24.9,
+      "source": "cofid",
+      "source_detail": "16-416 Tuna, canned in brine, drained",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 112, "pack_size_g": 112 }
+  },
+  {
+    "id": "eggs",
+    "name": "Eggs, medium",
+    "aliases": ["egg", "free range eggs"],
+    "category": "dairy",
+    "nutrition": {
+      "kcal_per_100g": 131,
+      "protein_per_100g": 12.6,
+      "source": "cofid",
+      "source_detail": "12-937 Eggs, chicken, whole, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 50, "pack_size_g": 300 }
+  },
+  {
+    "id": "milk-semi-skimmed",
+    "name": "Semi-skimmed milk",
+    "aliases": ["milk", "semi skimmed milk"],
+    "category": "dairy",
+    "nutrition": {
+      "kcal_per_100g": 46,
+      "protein_per_100g": 3.5,
+      "source": "cofid",
+      "source_detail": "12-313 Milk, semi-skimmed, pasteurised, average",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 2272 }
+  },
+  {
+    "id": "cheddar",
+    "name": "Cheddar",
+    "aliases": ["cheese", "mature cheddar", "grated cheddar"],
+    "category": "dairy",
+    "nutrition": {
+      "kcal_per_100g": 416,
+      "protein_per_100g": 25.4,
+      "source": "cofid",
+      "source_detail": "12-346 Cheese, Cheddar, English",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 400 }
+  },
+  {
+    "id": "mozzarella",
+    "name": "Mozzarella",
+    "aliases": ["mozzarella ball"],
+    "category": "dairy",
+    "nutrition": {
+      "kcal_per_100g": 257,
+      "protein_per_100g": 18.6,
+      "source": "cofid",
+      "source_detail": "12-360 Cheese, Mozzarella, fresh",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 125, "pack_size_g": 125 }
+  },
+  {
+    "id": "natural-yogurt",
+    "name": "Natural yogurt, whole milk",
+    "aliases": ["yogurt", "yoghurt", "plain yogurt"],
+    "category": "dairy",
+    "nutrition": {
+      "kcal_per_100g": 79,
+      "protein_per_100g": 5.7,
+      "source": "cofid",
+      "source_detail": "12-184 Yogurt, whole milk, plain",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+  },
+  {
+    "id": "butter",
+    "name": "Butter, salted",
+    "aliases": ["butter"],
+    "category": "dairy",
+    "nutrition": {
+      "kcal_per_100g": 744,
+      "protein_per_100g": 0.6,
+      "source": "cofid",
+      "source_detail": "17-685 Butter, salted",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 250 }
+  },
+  {
+    "id": "rice-basmati",
+    "name": "Basmati rice",
+    "aliases": ["rice", "white rice", "basmati"],
+    "category": "grains",
+    "nutrition": {
+      "kcal_per_100g": 351,
+      "protein_per_100g": 8.1,
+      "source": "cofid",
+      "source_detail": "11-857 Rice, white, basmati, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 1000 }
+  },
+  {
+    "id": "rice-long-grain",
+    "name": "Long grain white rice",
+    "aliases": ["long grain rice"],
+    "category": "grains",
+    "nutrition": {
+      "kcal_per_100g": 355,
+      "protein_per_100g": 6.7,
+      "source": "cofid",
+      "source_detail": "11-861 Rice, white, long grain, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 1000 }
+  },
+  {
+    "id": "rice-brown",
+    "name": "Brown rice",
+    "aliases": ["wholegrain rice", "wholemeal rice"],
+    "category": "grains",
+    "nutrition": {
+      "kcal_per_100g": 333,
+      "protein_per_100g": 7.7,
+      "source": "cofid",
+      "source_detail": "11-868 Rice, brown, wholegrain, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 1000 }
+  },
+  {
+    "id": "pasta-dried",
+    "name": "Dried pasta",
+    "aliases": ["pasta", "penne", "fusilli", "rigatoni"],
+    "category": "grains",
+    "nutrition": {
+      "kcal_per_100g": 343,
+      "protein_per_100g": 11.3,
+      "source": "cofid",
+      "source_detail": "11-716 Pasta, white, dried, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+  },
+  {
+    "id": "spaghetti-wholewheat",
+    "name": "Wholewheat spaghetti",
+    "aliases": ["wholemeal spaghetti", "brown spaghetti"],
+    "category": "grains",
+    "nutrition": {
+      "kcal_per_100g": 329,
+      "protein_per_100g": 12.6,
+      "source": "cofid",
+      "source_detail": "11-718 Pasta, wholewheat, spaghetti, dried, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+  },
+  {
+    "id": "porridge-oats",
+    "name": "Porridge oats",
+    "aliases": ["oats", "rolled oats"],
+    "category": "grains",
+    "nutrition": {
+      "kcal_per_100g": 381,
+      "protein_per_100g": 10.9,
+      "source": "cofid",
+      "source_detail": "11-788 Porridge oats, unfortified",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 1000 }
+  },
+  {
+    "id": "bread-white",
+    "name": "White bread, sliced",
+    "aliases": ["bread", "white loaf", "sliced bread"],
+    "category": "bakery",
+    "nutrition": {
+      "kcal_per_100g": 219,
+      "protein_per_100g": 7.9,
+      "source": "cofid",
+      "source_detail": "11-980 Bread, white, sliced",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 36, "pack_size_g": 800 }
+  },
+  {
+    "id": "onion",
+    "name": "Onion",
+    "aliases": ["onions", "brown onion", "white onion"],
+    "category": "produce",
+    "nutrition": {
+      "kcal_per_100g": 35,
+      "protein_per_100g": 1.0,
+      "source": "cofid",
+      "source_detail": "13-499 Onions, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 150, "pack_size_g": 1000 }
+  },
+  {
+    "id": "garlic",
+    "name": "Garlic",
+    "aliases": ["garlic clove", "garlic cloves", "clove of garlic"],
+    "category": "produce",
+    "nutrition": {
+      "kcal_per_100g": 98,
+      "protein_per_100g": 7.9,
+      "source": "cofid",
+      "source_detail": "13-244 Garlic, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 3, "pack_size_g": 60 }
+  },
+  {
+    "id": "carrot",
+    "name": "Carrot",
+    "aliases": ["carrots"],
+    "category": "produce",
+    "nutrition": {
+      "kcal_per_100g": 34,
+      "protein_per_100g": 0.5,
+      "source": "cofid",
+      "source_detail": "13-496 Carrots, old, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 60, "pack_size_g": 500 }
+  },
+  {
+    "id": "potato",
+    "name": "Potatoes",
+    "aliases": ["potato", "maris piper", "white potatoes"],
+    "category": "produce",
+    "nutrition": {
+      "kcal_per_100g": 82,
+      "protein_per_100g": 1.9,
+      "source": "cofid",
+      "source_detail": "13-489 Potatoes, old, raw, flesh only",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 180, "pack_size_g": 2000 }
+  },
+  {
+    "id": "sweet-potato",
+    "name": "Sweet potato",
+    "aliases": ["sweet potatoes"],
+    "category": "produce",
+    "nutrition": {
+      "kcal_per_100g": 87,
+      "protein_per_100g": 1.2,
+      "source": "cofid",
+      "source_detail": "13-463 Sweet potato, raw, flesh only",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 150, "pack_size_g": 1000 }
+  },
+  {
+    "id": "red-pepper",
+    "name": "Red pepper",
+    "aliases": ["red peppers", "bell pepper", "red bell pepper"],
+    "category": "produce",
+    "nutrition": {
+      "kcal_per_100g": 21,
+      "protein_per_100g": 0.8,
+      "source": "cofid",
+      "source_detail": "13-524 Pepper, capsicum, red, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 160, "pack_size_g": 480 }
+  },
+  {
+    "id": "red-chilli",
+    "name": "Red chilli",
+    "aliases": ["red chillies", "chilli", "fresh chilli"],
+    "category": "produce",
+    "nutrition": {
+      "kcal_per_100g": 26,
+      "protein_per_100g": 1.8,
+      "source": "cofid",
+      "source_detail": "13-317 Peppers, capsicum, chilli, red, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 15, "pack_size_g": 45 }
+  },
+  {
+    "id": "mushrooms",
+    "name": "Mushrooms",
+    "aliases": ["chestnut mushrooms", "button mushrooms", "white mushrooms"],
+    "category": "produce",
+    "nutrition": {
+      "kcal_per_100g": 7,
+      "protein_per_100g": 1.0,
+      "source": "cofid",
+      "source_detail": "13-505 Mushrooms, white, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 250 }
+  },
+  {
+    "id": "broccoli",
+    "name": "Broccoli",
+    "aliases": ["tenderstem broccoli", "broccoli florets"],
+    "category": "produce",
+    "nutrition": {
+      "kcal_per_100g": 34,
+      "protein_per_100g": 4.3,
+      "source": "cofid",
+      "source_detail": "13-502 Broccoli, green, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 350, "pack_size_g": 350 }
+  },
+  {
+    "id": "spinach",
+    "name": "Baby spinach",
+    "aliases": ["spinach", "fresh spinach"],
+    "category": "produce",
+    "nutrition": {
+      "kcal_per_100g": 16,
+      "protein_per_100g": 2.6,
+      "source": "cofid",
+      "source_detail": "13-521 Spinach, baby, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 260 }
+  },
+  {
+    "id": "courgette",
+    "name": "Courgette",
+    "aliases": ["courgettes", "zucchini"],
+    "category": "produce",
+    "nutrition": {
+      "kcal_per_100g": 16,
+      "protein_per_100g": 1.3,
+      "source": "cofid",
+      "source_detail": "13-627 Courgette, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 200, "pack_size_g": 400 }
+  },
+  {
+    "id": "tomato",
+    "name": "Tomatoes",
+    "aliases": ["tomato", "salad tomatoes"],
+    "category": "produce",
+    "nutrition": {
+      "kcal_per_100g": 14,
+      "protein_per_100g": 0.5,
+      "source": "cofid",
+      "source_detail": "13-517 Tomatoes, standard, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 85, "pack_size_g": 510 }
+  },
+  {
+    "id": "ginger",
+    "name": "Root ginger",
+    "aliases": ["fresh ginger", "ginger"],
+    "category": "produce",
+    "nutrition": {
+      "kcal_per_100g": 44,
+      "protein_per_100g": 1.8,
+      "source": "cofid",
+      "source_detail": "13-890 Ginger, fresh",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 100 }
+  },
+  {
+    "id": "chopped-tomatoes",
+    "name": "Chopped tomatoes",
+    "aliases": ["tinned tomatoes", "canned tomatoes", "plum tomatoes"],
+    "category": "tinned",
+    "nutrition": {
+      "kcal_per_100g": 19,
+      "protein_per_100g": 1.1,
+      "source": "cofid",
+      "source_detail": "13-530 Tomatoes, canned, whole contents",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 400, "pack_size_g": 400 }
+  },
+  {
+    "id": "tomato-puree",
+    "name": "Tomato puree",
+    "aliases": ["tomato paste", "puree"],
+    "category": "tinned",
+    "nutrition": {
+      "kcal_per_100g": 67,
+      "protein_per_100g": 4.4,
+      "source": "cofid",
+      "source_detail": "13-531 Tomato puree",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 200 }
+  },
+  {
+    "id": "chickpeas-canned",
+    "name": "Chickpeas, canned",
+    "aliases": ["chick peas", "tinned chickpeas", "garbanzo beans"],
+    "category": "tinned",
+    "nutrition": {
+      "kcal_per_100g": 129,
+      "protein_per_100g": 8.4,
+      "source": "cofid",
+      "source_detail": "13-670 Beans, chick peas, canned, re-heated, drained",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 240, "pack_size_g": 240 }
+  },
+  {
+    "id": "kidney-beans-canned",
+    "name": "Red kidney beans, canned",
+    "aliases": ["kidney beans", "tinned kidney beans"],
+    "category": "tinned",
+    "nutrition": {
+      "kcal_per_100g": 100,
+      "protein_per_100g": 8.6,
+      "source": "cofid",
+      "source_detail": "13-660 Beans, red kidney, canned in water, re-heated, drained",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 240, "pack_size_g": 240 }
+  },
+  {
+    "id": "coconut-milk",
+    "name": "Coconut milk",
+    "aliases": ["tinned coconut milk", "canned coconut milk"],
+    "category": "tinned",
+    "nutrition": {
+      "kcal_per_100g": 169,
+      "protein_per_100g": 1.1,
+      "source": "cofid",
+      "source_detail": "14-889 Coconut milk, retail",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 400, "pack_size_g": 400 }
+  },
+  {
+    "id": "red-lentils",
+    "name": "Red split lentils",
+    "aliases": ["red lentils", "split lentils", "lentils"],
+    "category": "store-cupboard",
+    "nutrition": {
+      "kcal_per_100g": 311,
+      "protein_per_100g": 25.6,
+      "source": "cofid",
+      "source_detail": "13-657 Lentils, red, split, dried, raw",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+  },
+  {
+    "id": "olive-oil",
+    "name": "Olive oil",
+    "aliases": ["extra virgin olive oil", "oil"],
+    "category": "store-cupboard",
+    "nutrition": {
+      "kcal_per_100g": 899,
+      "protein_per_100g": 0.0,
+      "source": "cofid",
+      "source_detail": "17-038 Oil, olive (protein listed as Tr, recorded as 0)",
+      "updated": "2026-09-05"
+    },
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+  }
+]
