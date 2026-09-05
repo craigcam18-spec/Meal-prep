@@ -1,13 +1,19 @@
 /**
- * Guards the two data files against drift: every field the data model
- * specifies, present and the right shape, and every recipe reference
- * resolving to a real ingredient.
+ * Guards the reference data against drift: every field the data model
+ * specifies, present and the right shape.
+ *
+ * Ingredients are a file in git and are checked here. Recipes moved to D1,
+ * so what is checked instead is the seed — loaded through the same queries
+ * the site uses — and that its ingredient references still resolve. Between
+ * them the two halves of DATA_MODEL.md §2 are still covered end to end.
  */
 
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
 
+import { freshDatabase } from './d1.js';
+import { loadRecipes } from '../src/recipes-store.js';
 import { buildShoppingList } from '../src/shopping-list.js';
 import { KNOWN_UNITS } from '../src/units.js';
 
@@ -15,7 +21,7 @@ const read = (name) =>
   JSON.parse(readFileSync(new URL(`../data/${name}`, import.meta.url), 'utf8'));
 
 const ingredients = read('ingredients.json');
-const recipes = read('recipes.json');
+const recipes = await loadRecipes(freshDatabase('seed.sql'));
 
 const SOURCES = ['scanned', 'openfoodfacts', 'cofid', 'manual', 'estimate'];
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -101,8 +107,8 @@ describe('ingredients.json', () => {
   }
 });
 
-describe('recipes.json', () => {
-  it('is an array of uniquely-identified recipes', () => {
+describe('the seeded recipes', () => {
+  it('are uniquely identified', () => {
     assert.ok(Array.isArray(recipes));
     const ids = recipes.map((r) => r.id);
     assert.equal(new Set(ids).size, ids.length);
@@ -127,19 +133,22 @@ describe('recipes.json', () => {
         }
       });
 
-      it('keeps the original text, not just a link that can rot', () => {
+      it('carries a source, with the original text where there was one', () => {
         const s = recipe.source;
         assert.ok(Object.hasOwn(s, 'url'));
         assert.ok(Object.hasOwn(s, 'creator'));
-        assert.ok(typeof s.captured_text === 'string' && s.captured_text.length > 0);
+        assert.equal(typeof s.captured_text, 'string');
+        // Only an imported recipe had text to capture. A link that can rot
+        // without one is the case worth failing on.
+        if (s.type !== 'manual') assert.ok(s.captured_text.length > 0);
         assert.match(s.imported, ISO_DATE);
       });
     });
   }
 });
 
-describe('the real data merges', () => {
-  it('builds a list for every recipe at once without a unit gap', () => {
+describe('the seed and the ingredients merge', () => {
+  it('build a list for every recipe at once without a unit gap', () => {
     const plan = recipes.map((r) => ({ recipe_id: r.id }));
     const list = buildShoppingList(plan, { ingredients, recipes });
 

@@ -5,6 +5,6 @@
   "type": "module",
   "description": "Meal planner: ingredients, recipes, and a shopping list that merges quantities across recipes.",
   "scripts": {
-    "test": "node --test \"test/*.test.js\""
+    "test": "node --test --disable-warning=ExperimentalWarning \"test/*.test.js\""
   }
 }
