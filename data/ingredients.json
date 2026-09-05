@@ -11,7 +11,7 @@
       "source_detail": "18-508 Beef, mince, raw, extra lean",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 500 }
   },
   {
     "id": "beef-mince-20",
@@ -25,7 +25,7 @@
       "source_detail": "18-469 Beef, mince, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 500 }
   },
   {
     "id": "pork-mince",
@@ -39,7 +39,7 @@
       "source_detail": "18-606 Pork, mince, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 500 }
   },
   {
     "id": "chicken-breast",
@@ -53,7 +53,7 @@
       "source_detail": "18-290 Chicken, light meat, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 165, "pack_size_g": 650 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 165, "density_g_per_ml": null, "pack_size_g": 650 }
   },
   {
     "id": "chicken-thigh",
@@ -67,7 +67,7 @@
       "source_detail": "18-289 Chicken, dark meat, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 90, "pack_size_g": 600 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 90, "density_g_per_ml": null, "pack_size_g": 600 }
   },
   {
     "id": "bacon-back",
@@ -81,7 +81,7 @@
       "source_detail": "19-497 Bacon rashers, back, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 35, "pack_size_g": 300 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 35, "density_g_per_ml": null, "pack_size_g": 300 }
   },
   {
     "id": "pork-sausages",
@@ -95,7 +95,7 @@
       "source_detail": "19-510 Sausages, pork, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 67, "pack_size_g": 400 }
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 67, "density_g_per_ml": null, "pack_size_g": 400 }
   },
   {
     "id": "salmon-fillet",
@@ -109,7 +109,7 @@
       "source_detail": "16-356 Salmon, farmed, flesh only, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 130, "pack_size_g": 260 }
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 130, "density_g_per_ml": null, "pack_size_g": 260 }
   },
   {
     "id": "tuna-canned",
@@ -123,7 +123,7 @@
       "source_detail": "16-416 Tuna, canned in brine, drained",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 112, "pack_size_g": 112 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 112, "density_g_per_ml": null, "pack_size_g": 112 }
   },
   {
     "id": "eggs",
@@ -137,7 +137,7 @@
       "source_detail": "12-937 Eggs, chicken, whole, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 50, "pack_size_g": 300 }
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 50, "density_g_per_ml": null, "pack_size_g": 300 }
   },
   {
     "id": "milk-semi-skimmed",
@@ -151,7 +151,7 @@
       "source_detail": "12-313 Milk, semi-skimmed, pasteurised, average",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 2272 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": 1.03, "pack_size_g": 2272 }
   },
   {
     "id": "cheddar",
@@ -165,7 +165,7 @@
       "source_detail": "12-346 Cheese, Cheddar, English",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 400 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 400 }
   },
   {
     "id": "mozzarella",
@@ -179,7 +179,7 @@
       "source_detail": "12-360 Cheese, Mozzarella, fresh",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 125, "pack_size_g": 125 }
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 125, "density_g_per_ml": null, "pack_size_g": 125 }
   },
   {
     "id": "natural-yogurt",
@@ -193,7 +193,7 @@
       "source_detail": "12-184 Yogurt, whole milk, plain",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 500 }
   },
   {
     "id": "butter",
@@ -207,7 +207,7 @@
       "source_detail": "17-685 Butter, salted",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 250 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 250 }
   },
   {
     "id": "rice-basmati",
@@ -221,7 +221,7 @@
       "source_detail": "11-857 Rice, white, basmati, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 1000 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 1000 }
   },
   {
     "id": "rice-long-grain",
@@ -235,7 +235,7 @@
       "source_detail": "11-861 Rice, white, long grain, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 1000 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 1000 }
   },
   {
     "id": "rice-brown",
@@ -249,7 +249,7 @@
       "source_detail": "11-868 Rice, brown, wholegrain, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 1000 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 1000 }
   },
   {
     "id": "pasta-dried",
@@ -263,7 +263,7 @@
       "source_detail": "11-716 Pasta, white, dried, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 500 }
   },
   {
     "id": "spaghetti-wholewheat",
@@ -277,7 +277,7 @@
       "source_detail": "11-718 Pasta, wholewheat, spaghetti, dried, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 500 }
   },
   {
     "id": "porridge-oats",
@@ -291,7 +291,7 @@
       "source_detail": "11-788 Porridge oats, unfortified",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 1000 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 1000 }
   },
   {
     "id": "bread-white",
@@ -305,7 +305,7 @@
       "source_detail": "11-980 Bread, white, sliced",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 36, "pack_size_g": 800 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 36, "density_g_per_ml": null, "pack_size_g": 800 }
   },
   {
     "id": "onion",
@@ -319,7 +319,7 @@
       "source_detail": "13-499 Onions, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 150, "pack_size_g": 1000 }
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 150, "density_g_per_ml": null, "pack_size_g": 1000 }
   },
   {
     "id": "garlic",
@@ -333,7 +333,7 @@
       "source_detail": "13-244 Garlic, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 3, "pack_size_g": 60 }
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 3, "density_g_per_ml": null, "pack_size_g": 60 }
   },
   {
     "id": "carrot",
@@ -347,7 +347,7 @@
       "source_detail": "13-496 Carrots, old, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 60, "pack_size_g": 500 }
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 60, "density_g_per_ml": null, "pack_size_g": 500 }
   },
   {
     "id": "potato",
@@ -361,7 +361,7 @@
       "source_detail": "13-489 Potatoes, old, raw, flesh only",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 180, "pack_size_g": 2000 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 180, "density_g_per_ml": null, "pack_size_g": 2000 }
   },
   {
     "id": "sweet-potato",
@@ -375,7 +375,7 @@
       "source_detail": "13-463 Sweet potato, raw, flesh only",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 150, "pack_size_g": 1000 }
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 150, "density_g_per_ml": null, "pack_size_g": 1000 }
   },
   {
     "id": "red-pepper",
@@ -389,7 +389,7 @@
       "source_detail": "13-524 Pepper, capsicum, red, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 160, "pack_size_g": 480 }
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 160, "density_g_per_ml": null, "pack_size_g": 480 }
   },
   {
     "id": "red-chilli",
@@ -403,7 +403,7 @@
       "source_detail": "13-317 Peppers, capsicum, chilli, red, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 15, "pack_size_g": 45 }
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 15, "density_g_per_ml": null, "pack_size_g": 45 }
   },
   {
     "id": "mushrooms",
@@ -417,7 +417,7 @@
       "source_detail": "13-505 Mushrooms, white, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 250 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 250 }
   },
   {
     "id": "broccoli",
@@ -431,7 +431,7 @@
       "source_detail": "13-502 Broccoli, green, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 350, "pack_size_g": 350 }
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 350, "density_g_per_ml": null, "pack_size_g": 350 }
   },
   {
     "id": "spinach",
@@ -445,7 +445,7 @@
       "source_detail": "13-521 Spinach, baby, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 260 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 260 }
   },
   {
     "id": "courgette",
@@ -459,7 +459,7 @@
       "source_detail": "13-627 Courgette, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 200, "pack_size_g": 400 }
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 200, "density_g_per_ml": null, "pack_size_g": 400 }
   },
   {
     "id": "tomato",
@@ -473,7 +473,7 @@
       "source_detail": "13-517 Tomatoes, standard, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 85, "pack_size_g": 510 }
+    "purchase": { "barcode": null, "unit": "each", "unit_weight_g": 85, "density_g_per_ml": null, "pack_size_g": 510 }
   },
   {
     "id": "ginger",
@@ -487,7 +487,7 @@
       "source_detail": "13-890 Ginger, fresh",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 100 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 100 }
   },
   {
     "id": "chopped-tomatoes",
@@ -501,7 +501,7 @@
       "source_detail": "13-530 Tomatoes, canned, whole contents",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 400, "pack_size_g": 400 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 400, "density_g_per_ml": null, "pack_size_g": 400 }
   },
   {
     "id": "tomato-puree",
@@ -515,7 +515,7 @@
       "source_detail": "13-531 Tomato puree",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 200 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 200 }
   },
   {
     "id": "chickpeas-canned",
@@ -529,7 +529,7 @@
       "source_detail": "13-670 Beans, chick peas, canned, re-heated, drained",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 240, "pack_size_g": 240 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 240, "density_g_per_ml": null, "pack_size_g": 240 }
   },
   {
     "id": "kidney-beans-canned",
@@ -543,7 +543,7 @@
       "source_detail": "13-660 Beans, red kidney, canned in water, re-heated, drained",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 240, "pack_size_g": 240 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 240, "density_g_per_ml": null, "pack_size_g": 240 }
   },
   {
     "id": "coconut-milk",
@@ -557,7 +557,7 @@
       "source_detail": "14-889 Coconut milk, retail",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 400, "pack_size_g": 400 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": 400, "density_g_per_ml": null, "pack_size_g": 400 }
   },
   {
     "id": "red-lentils",
@@ -571,7 +571,7 @@
       "source_detail": "13-657 Lentils, red, split, dried, raw",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": null, "pack_size_g": 500 }
   },
   {
     "id": "olive-oil",
@@ -585,6 +585,6 @@
       "source_detail": "17-038 Oil, olive (protein listed as Tr, recorded as 0)",
       "updated": "2026-09-05"
     },
-    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "pack_size_g": 500 }
+    "purchase": { "barcode": null, "unit": "g", "unit_weight_g": null, "density_g_per_ml": 0.91, "pack_size_g": 500 }
   }
 ]

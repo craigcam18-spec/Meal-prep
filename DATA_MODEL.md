@@ -28,6 +28,7 @@ The master list. One entry per thing you cook with.
     "barcode": null,
     "unit": "g",
     "unit_weight_g": null,
+    "density_g_per_ml": null,
     "pack_size_g": 650
   }
 }
@@ -52,6 +53,32 @@ value replaces it.
 
 Solves the "1 onion" problem. If `unit` is `"each"`, this says how many
 grams one of them is, so nutrition maths still works. Onion ≈ 150g.
+
+### `purchase.density_g_per_ml`
+
+Solves the "200ml milk" problem, the same way. Recipes measure liquids by
+volume and nutrition is per 100 **grams**, so a millilitre figure is useless
+until you know what a millilitre weighs. Semi-skimmed milk is 1.03 g/ml,
+olive oil 0.91.
+
+Density is a measured physical property, not a nutrition figure, so it sits
+outside the `nutrition` block and has no `source` on the trust ladder. That
+puts more weight on the null: **leave it `null` unless you have a real
+figure.** A null is not an omission, it is a statement that nobody has
+looked it up, and the shopping list handles it accordingly — the
+millilitres stay millilitres and the line is flagged, exactly like a count
+with no `unit_weight_g`. Never fill it in by eye to make a number appear.
+
+### Units a recipe line may use
+
+| kind | units | converts to grams when |
+|---|---|---|
+| weight | `g`, `kg` | always |
+| volume | `ml`, `l` | the ingredient has a `density_g_per_ml` |
+| count | `each` | the ingredient has a `unit_weight_g` |
+
+Anything else (`tbsp`, `cup`, `pinch`) is rejected outright rather than
+guessed at. Convert it to one of the above when you type the recipe in.
 
 ### Weight convention
 
@@ -110,6 +137,16 @@ This changes constantly and is personal — it doesn't belong in git.
 }
 ```
 
+Stored under the single key `mealprep.week.v1`. `week_of` is the Monday of
+the week, `day` is one of `mon`–`sun`, and `ticked_off` holds ingredient
+IDs — not shopping-list rows, which are rebuilt from scratch every render
+and have no stable identity of their own. IDs that are no longer on the list
+are dropped on the next write, so a tick never outlives the meal that put
+the ingredient there.
+
+Nothing here goes in git. It is personal, it changes daily, and every
+device keeps its own.
+
 ---
 
 ## 4. Derived, never stored
@@ -127,11 +164,11 @@ Calculate these fresh each time. Storing them is how the numbers go stale.
 
 ## Build order
 
-1. `ingredients.json` + `recipes.json` + the unit-merging logic.
+1. ~~`ingredients.json` + `recipes.json` + the unit-merging logic.~~ Done.
    Combining 300g and 500g of mince correctly is the fiddly bit — do it first.
-2. Pick-your-week screen → shopping list, grouped by aisle.
+2. ~~Pick-your-week screen → shopping list, grouped by aisle, with a
+   tick-off mode for in the shop.~~ Done — `index.html` + `src/app.js`.
 3. Manual nutrition entry (`source: "manual"`) + estimate flagging.
-4. Tick-off mode for in the shop.
 
 Later, once it's earning its keep: barcode scan → Open Food Facts, then
 photo of the nutrition panel via a vision API behind a Cloudflare Pages

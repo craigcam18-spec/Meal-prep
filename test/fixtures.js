@@ -18,6 +18,13 @@ export const ingredients = [
   // Counted in recipes, but nobody has said what one weighs.
   ingredient('lemon', 'Lemon', 'produce', { unit: 'each' }),
   ingredient('rice-basmati', 'Basmati rice', 'grains', { unit: 'g' }),
+  // Measured by volume in recipes, and we know what a millilitre weighs.
+  ingredient('olive-oil', 'Olive oil', 'store-cupboard', {
+    unit: 'g',
+    density_g_per_ml: 0.91,
+  }),
+  // Poured by volume, but nobody has weighed a millilitre of it.
+  ingredient('stock', 'Chicken stock', 'store-cupboard', { unit: 'g' }),
 ];
 
 export const recipes = [
@@ -36,6 +43,14 @@ export const recipes = [
   recipe('lemon-chicken', 'Lemon chicken', 2, [
     { ingredient_id: 'lemon', qty: 1, unit: 'each' },
     { ingredient_id: 'potato', qty: 2, unit: 'each' },
+  ]),
+  recipe('roast-veg', 'Roast veg', 2, [
+    { ingredient_id: 'olive-oil', qty: 30, unit: 'ml' },
+    { ingredient_id: 'potato', qty: 500, unit: 'g' },
+  ]),
+  recipe('soup', 'Soup', 2, [
+    { ingredient_id: 'stock', qty: 500, unit: 'ml' },
+    { ingredient_id: 'onion', qty: 1, unit: 'each' },
   ]),
 ];
 
@@ -56,6 +71,7 @@ function ingredient(id, name, category, purchase) {
       barcode: null,
       unit: purchase.unit,
       unit_weight_g: purchase.unit_weight_g ?? null,
+      density_g_per_ml: purchase.density_g_per_ml ?? null,
       pack_size_g: purchase.pack_size_g ?? null,
     },
   };
